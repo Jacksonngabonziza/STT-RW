@@ -49,7 +49,7 @@ async def result(file:UploadFile = File(...)):
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 print(f"Audio in {fname} was recognized as: {transcription}")
                 print(transcription[0])
-                return {"text": transcription[0], "file_size": len(file), "filename": file.filename}
+                return {"text": transcription[0], "filename": file.filename}
 
      except Exception as e:
         return JSONResponse(
