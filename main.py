@@ -42,7 +42,7 @@ async def result(file: UploadFile = File(...)):
             print("########## saving locall done")
             cleaned_audio = speech_to_array(out_file.name)
             out_audio = tf.audio.encode_wav(cleaned_audio, 44100, name=None)
-            print("Type of out audio is :", type(out_audio)
+            print("Type of out audio is :", type(out_audio))
             print("########## cleaning done")
 
             # async with aiofiles.open(cleaned_audio, 'wb') as out_file:
