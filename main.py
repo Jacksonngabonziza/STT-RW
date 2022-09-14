@@ -1,9 +1,19 @@
 from fastapi import FastAPI, UploadFile, File, status
 import aiofiles
 import nemo
+import torch
+import torchaudio
 import nemo.collections.asr as nemo_asr
 from fastapi.responses import JSONResponse
 app = FastAPI()
+
+resampler = torchaudio.transforms.Resample(48000, 16000)
+def speech_to_array(audio_path):
+    speech_array, sampling_rate = torchaudio.load(audio_path)
+    audio_length = torch.tensor([speech_array.shape[1]/sampling_rate])
+    audio = resampler(speech_array)
+    return audio
+
 
 
 @app.get("/")
@@ -20,7 +30,7 @@ async def result(file:UploadFile = File(...)):
             print(out_file.name)
             asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(
             model_name="stt_rw_conformer_transducer_large")
-            files = [out_file.name]
+            files = [speech_to_array(out_file.name)]
             # print("file loaded is **************",file.file)
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 print(f"Audio in {fname} was recognized as: {transcription}")
