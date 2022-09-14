@@ -26,8 +26,11 @@ async def result(file:UploadFile = File(...)):
      try:
         async with aiofiles.open(file.filename, 'wb') as out_file:
             content = await file.read()  # async read
+            print("########## content reading done")
             cleaned_audio=speech_to_array(content)
+            print("########## cleaning done")
             await out_file.write(cleaned_audio)  # async write
+            print("########## saving localllllll done")
             print(out_file.name)
             asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(
             model_name="stt_rw_conformer_transducer_large")
