@@ -3,7 +3,7 @@ import aiofiles
 import nemo
 import torch
 import torchaudio
-import tensorflow as tf
+# import tensorflow as tf
 import nemo.collections.asr as nemo_asr
 from fastapi.responses import JSONResponse
 app = FastAPI()
@@ -36,13 +36,12 @@ async def result(file: UploadFile = File(...)):
      try:
         async with aiofiles.open(file.filename, 'wb') as out_file:
             content = await file.read()  # async read
-            print("########## content reading done")
-
             await out_file.write(content)  # async write
             print("########## saving locall done")
             cleaned_audio = speech_to_array(out_file.name)
-            out_audio = tf.audio.encode_wav(cleaned_audio, 44100, name=None)
-            print("Type of out audio is :", type(out_audio))
+            # out_audio = tf.audio.encode_wav(cleaned_audio, 44100, name=None)
+            # print("Type of out audio is :", type(out_audio))
+            print("type of cleaned object: ",type(cleaned_audio))
             print("########## cleaning done")
 
             # async with aiofiles.open(cleaned_audio, 'wb') as out_file:
