@@ -26,11 +26,13 @@ async def result(file:UploadFile = File(...)):
      try:
         async with aiofiles.open(file.filename, 'wb') as out_file:
             content = await file.read()  # async read
-            await out_file.write(content)  # async write
+            cleaned_audio=speech_to_array(content)
+            await out_file.write(cleaned_audio)  # async write
             print(out_file.name)
             asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(
             model_name="stt_rw_conformer_transducer_large")
-            files = [speech_to_array(out_file.name)]
+            # speech_to_array(out_file.name)
+            files = [out_file.name]
             # print("file loaded is **************",file.file)
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 print(f"Audio in {fname} was recognized as: {transcription}")
