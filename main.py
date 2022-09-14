@@ -33,7 +33,7 @@ async def result(file:UploadFile = File(...)):
             model_name="stt_rw_conformer_transducer_large")
             # speech_to_array(out_file.name)
             files = [out_file.name]
-            # print("file loaded is **************",file.file)
+            print("file loaded is **************",out_file.name)
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 print(f"Audio in {fname} was recognized as: {transcription}")
                 print(transcription[0])
