@@ -17,6 +17,7 @@ asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(
 async def resampler(audio_path):
     resampler = torchaudio.transforms.Resample(48000, 16000) # 
     speech_array, sampling_rate = torchaudio.load(audio_path)
+    print("current sample rate is:",sampling_rate)
     audio = resampler(speech_array)
     torchaudio.save(audio_path,audio,16000) # 16000 ni sampling rate
         
@@ -29,7 +30,8 @@ async def result(file:UploadFile = File(...)):
             print(out_file.name)
             resampler(out_file.name)
             files = [out_file.name]
-            
+            speech_array, sampling_rate = torchaudio.load(out_file.name)
+            print("current updated sample rate is:",sampling_rate)
             # print("file loaded is **************",file.file)
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 print(f"Audio in {fname} was recognized as: {transcription}")
