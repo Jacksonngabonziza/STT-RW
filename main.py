@@ -4,6 +4,7 @@ import nemo
 import nemo.collections.asr as nemo_asr
 from fastapi.responses import JSONResponse
 import torchaudio
+import pyaudioconvert as pac
 app = FastAPI()
 
 
