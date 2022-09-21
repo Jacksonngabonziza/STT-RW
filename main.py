@@ -36,7 +36,7 @@ async def result(file:UploadFile = File(...)):
             print(out_file.name)
             resampler(out_file.name)
             #pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
-            if not file.name.endswith("mp3"):
+            if not out_file.name.endswith("mp3"):
                 sound = AudioSegment.from_mp3(out_file.name)
                 sound.export(out_file.name, format="wav")
             pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
