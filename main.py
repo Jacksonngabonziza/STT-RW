@@ -20,7 +20,7 @@ def resampler(audio_path):
     speech_array, sampling_rate = torchaudio.load(audio_path)
     print("current sample rate is:",sampling_rate)
     audio = resampler(speech_array)
-    torch.save(audio_path,audio.reshape(1,-1),16000)
+    torchaudio.save(audio_path,audio.reshape(1,-1),16000)
     #torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
         
 @app.post("/transcribe/", response_description="", response_model = "")
