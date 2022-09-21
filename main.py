@@ -20,7 +20,8 @@ def resampler(audio_path):
     speech_array, sampling_rate = torchaudio.load(audio_path)
     print("current sample rate is:",sampling_rate)
     audio = resampler(speech_array)
-    torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
+    torch.save(audio_path,audio.reshape(1,-1),16000)
+    #torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
         
 @app.post("/transcribe/", response_description="", response_model = "")
 async def result(file:UploadFile = File(...)):
@@ -29,11 +30,11 @@ async def result(file:UploadFile = File(...)):
             content = await file.read()  # async read
             await out_file.write(content)  # async write
             print(out_file.name)
-            #resampler(out_file.name)
-            pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
+            resampler(out_file.name)
+            #pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
             files = [out_file.name]
-            speech_array, sampling_rate = torchaudio.load("out.wav")
-            print("current updated sample rate is:",sampling_rate)
+            speech_array, sampling_rate = torchaudio.load(out_file.name)
+            print("updated sample rate is:",sampling_rate)
             # print("file loaded is **************",file.file)
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 print(f"Audio in {fname} was recognized as: {transcription}")
