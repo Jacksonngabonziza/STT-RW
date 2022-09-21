@@ -14,7 +14,7 @@ async def read_root():
 asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(
                 model_name="stt_rw_conformer_transducer_large")
 
-async def resampler(audio_path):
+def resampler(audio_path):
     resampler = torchaudio.transforms.Resample(48000, 16000) # 
     speech_array, sampling_rate = torchaudio.load(audio_path)
     print("current sample rate is:",sampling_rate)
