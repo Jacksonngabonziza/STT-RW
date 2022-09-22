@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 import torchaudio
 import pyaudioconvert as pac
 from pydub import AudioSegment
+import ffmpeg
 app = FastAPI()
 
 
