@@ -40,6 +40,7 @@ async def result(file:UploadFile = File(...)):
             await out_file.write(content)  # async write
             print(out_file.name)
             file_name=out_file.name
+            print(type(file_name))
 #             resampler(out_file.name)
 #             resample_ffmpg(out_file.name)
 #             pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
