@@ -44,11 +44,13 @@ async def result(file:UploadFile = File(...)):
 #             resampler(out_file.name)
 #             resample_ffmpg(out_file.name)
 #             pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
+            # converting mp3 to wav for easy resampling with pyaudio converter
             if file_name.endswith("mp3"):
                 sound = AudioSegment.from_mp3(out_file.name)
                 sound.export(out_file.name, format="wav")
-                print("mp3 detected")
-            pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
+                print("#############mp3 detected#################")
+            if file.name.endswith("wav"):
+                pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
             files = [out_file.name]
             speech_array, sampling_rate = torchaudio.load(out_file.name)
             print("updated sample rate is:",sampling_rate)
