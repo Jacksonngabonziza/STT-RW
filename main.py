@@ -41,24 +41,27 @@ async def result(file:UploadFile = File(...)):
             print(out_file.name)
             file_name=out_file.name
             print(type(file_name))
-#             resampler(out_file.name)
-#             resample_ffmpg(out_file.name)
-#             pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
-            # converting mp3 to wav for easy resampling with pyaudio converter
-            if file_name.endswith("mp3"):
-                sound = AudioSegment.from_mp3(out_file.name)
-                sound.export(out_file.name, format="wav")
-                print("#############mp3 detected#################")
-        
-            pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
-            files = [out_file.name]
-            speech_array, sampling_rate = torchaudio.load(out_file.name)
-            print("updated sample rate is:",sampling_rate)
-            # print("file loaded is **************",file.file)
-            for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
-                print(f"Audio in {fname} was recognized as: {transcription}")
-                print(transcription[0])
-                return {"text": transcription[0], "filename": file.filename}
+            if file_name.endswith("mp3") or file_name.endswith("wav"):
+                test
+    #             resampler(out_file.name)
+    #             resample_ffmpg(out_file.name)
+    #             pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
+                # converting mp3 to wav for easy resampling with pyaudio converter
+                if file_name.endswith("mp3"):
+                    sound = AudioSegment.from_mp3(out_file.name)
+                    sound.export(out_file.name, format="wav")
+                    print("#############mp3 detected#################")
+                pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
+                files = [out_file.name]
+                speech_array, sampling_rate = torchaudio.load(out_file.name)
+                print("updated sample rate is:",sampling_rate)
+                # print("file loaded is **************",file.file)
+                for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
+                    print(f"Audio in {fname} was recognized as: {transcription}")
+                    print(transcription[0])
+                    return {"text": transcription[0], "filename": file.filename}
+            else:
+                return {"text": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
 
      except Exception as e:
         return JSONResponse(
