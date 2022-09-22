@@ -38,8 +38,8 @@ async def result(file:UploadFile = File(...)):
             content = await file.read()  # async read
             await out_file.write(content)  # async write
             print(out_file.name)
-            resampler(out_file.name)
-#             resample_ffmpg(out_file.name)
+#             resampler(out_file.name)
+            resample_ffmpg(out_file.name)
 #             pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
 #             if not out_file.name.endswith("mp3"):
 #                 sound = AudioSegment.from_mp3(out_file.name)
