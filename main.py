@@ -23,7 +23,7 @@ def resampler(audio_path):
     #audio = resampler(speech_array)
     audio = resampler(speech_array).squeeze()
     torchaudio.save(audio_path,audio,16000)
- def resample_ffmpg(input_file_path):
+def resample_ffmpg(input_file_path):
     stream = ffmpeg.input(input_file_path)
     audio = stream.audio
 #     stream = ffmpeg.output(audio, output_file_path)
