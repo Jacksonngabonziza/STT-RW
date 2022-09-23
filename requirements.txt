@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+jinja2
+aiofiles
+nemo-toolkit
+python-jose
+pre-commit
+python-multipart
+torchaudio
+pyaudioconvert
+pydub
+
