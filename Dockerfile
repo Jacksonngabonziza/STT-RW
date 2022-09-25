@@ -3,7 +3,8 @@ FROM ubuntu:20.04
 WORKDIR /STT
 
 COPY ./requirements.txt /STT/requirements.txt
-
+RUN apt update
+RUN apt install python3.10
 RUN pip install --no-cache-dir --upgrade -r /STT/requirements.txt
 RUN pip install wget
 RUN apt-get install sox libsndfile1 ffmpeg
