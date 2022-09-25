@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM ubuntu:20.04
 
 WORKDIR /STT
 
