@@ -62,7 +62,7 @@ async def result(file:UploadFile = File(...)):
                     print(f"Audio in {fname} was recognized as: {transcription}")
                     stop = timeit.default_timer()
                     print(transcription[0])
-                    return {"text": transcription[0], "filename": file.filename,"Time":stop-start}
+                    return {"text": transcription[0], "filename": file.filename,"Trancription Time":stop-start}
             else:
                 return {"text": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
 
