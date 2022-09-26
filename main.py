@@ -56,10 +56,12 @@ async def result(file:UploadFile = File(...)):
                 speech_array, sampling_rate = torchaudio.load(out_file.name)
                 print("updated sample rate is:",sampling_rate)
                 # print("file loaded is **************",file.file)
+                start = timeit.default_timer()
                 for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                     print(f"Audio in {fname} was recognized as: {transcription}")
+                    stop = timeit.default_timer()
                     print(transcription[0])
-                    return {"text": transcription[0], "filename": file.filename}
+                    return {"text": transcription[0], "filename": file.filename,"Time":start-stop}
             else:
                 return {"text": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
 
