@@ -9,7 +9,7 @@ TASK = "translation"
 CKPT = "facebook/nllb-200-distilled-600M"
 model = AutoModelForSeq2SeqLM.from_pretrained(CKPT)
 tokenizer = AutoTokenizer.from_pretrained(CKPT)
-device = 0 if torch.cuda.is_available() else -1
+device ="cpu"
 
 @app.get("/")
 async def read_root():
