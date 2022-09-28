@@ -7,7 +7,8 @@ from langs import LANGS
 app = FastAPI()
 TASK = "translation"
 CKPT = "facebook/nllb-200-distilled-600M"
-model = AutoModelForSeq2SeqLM.from_pretrained(CKPT)
+model = AutoModelForSeq2SeqLM.from_pretrained(CKPT).cpu()
+# to('cpu')
 tokenizer = AutoTokenizer.from_pretrained(CKPT)
 device ="cpu"
 
