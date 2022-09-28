@@ -1,4 +1,4 @@
-mport tensorflow as tf
+import tensorflow as tf
 print("TensorFlow version:", tf._version_)
 print("is_gpu_available:", tf.test.is_gpu_available())
 import tensorflow.compiler as tf_cc
