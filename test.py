@@ -1,5 +1,5 @@
 import tensorflow as tf
-print("TensorFlow version:", tf._version_)
+print("TensorFlow version:", tf.__version__)
 print("is_gpu_available:", tf.test.is_gpu_available())
 import tensorflow.compiler as tf_cc
 print("is TensorRT enabled:", tf_cc.tf2tensorrt._pywrap_py_utils.is_tensorrt_enabled())
