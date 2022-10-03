@@ -64,7 +64,7 @@ async def result(file:UploadFile = File(...)):
                     print(transcription[0])
                     return {"message": transcription[0], "filename": file.filename,"TrancriptionTime":stop-start}
             else:
-                return {"text": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
+                return {"message": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
 
      except Exception as e:
         return JSONResponse(
