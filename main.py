@@ -45,10 +45,13 @@ async def result(file:UploadFile = File(...)):
          async with aiofiles.open(file.filename, 'wb') as out_file:
             content = await file.read()  # async read
             await out_file.write(content)  # async write
-            print(out_file.name)
+            print("file uploadedd as:",out_file.name)
+            speech_array, sampling_rate = torchaudio.load(out_file.name)
+            print("sample rate: ",sampling_rate)
             file_name=out_file.name
             print(type(file_name))
             if file_name.endswith("mp3") or file_name.endswith("wav"):
+                print("mp3 file recorgnised !!!!!!!")
                 #test
     #             resampler(out_file.name)
     #             resample_ffmpg(out_file.name)
@@ -62,7 +65,7 @@ async def result(file:UploadFile = File(...)):
                 files = [out_file.name]
                 speech_array, sampling_rate = torchaudio.load(out_file.name)
                 print("updated sample rate is:",sampling_rate)
-                # print("file loaded is **************",file.file)
+                print("file loaded is **************",file.file)
                 start = timeit.default_timer()
                 for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                     print(f"Audio in {fname} was recognized as: {transcription}")
