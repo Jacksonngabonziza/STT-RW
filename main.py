@@ -42,7 +42,7 @@ def resample_ffmpg(input_file_path):
 @app.post("/transcribe/", response_description="", response_model = "")
 async def result(file:UploadFile = File(...)):
      try:
-         async with aiofiles.open(file.filename, 'wb') as out_file:
+         async with aiofiles.open(file.file, 'wb') as out_file:
             content = await file.read()  # async read
             await out_file.write(content)  # async write
             print("file uploadedd as:",out_file.name)
