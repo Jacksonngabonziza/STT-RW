@@ -29,4 +29,4 @@ with gr.Blocks() as demo:
     
     # print(text_options.value)
     # print(text_option)
-demo.launch(server_port=5005)
+demo.launch(server_port=5005,share=True)
