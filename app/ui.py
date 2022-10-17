@@ -8,11 +8,9 @@ def welcome(text):
     # print(text_option.value)
     # print("t: "+target)
     return response.text
-def drops(src,tg):
-    print(src)
-    print(tg)
 
-with gr.Blocks() as demo:
+
+with gr.Blocks(server_port=5005) as demo:
     css="footer {visibility: hidden}"
     gr.Markdown(
   "<h1 ><center>Digital Umuganda Machine Translation</center><style>footer {visibility: hidden} h1{margin: 1.6875rem}</style></h1>")
