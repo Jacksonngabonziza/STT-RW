@@ -1,7 +1,7 @@
 import gradio as gr
 import requests
 def welcome(text):
-    response = requests.request("POST", "http://localhost:8000/translate/?source=kinyarwanda&target=english&text="+text)
+    response = requests.request("POST", "http://localhost:8990/translate/?source=kinyarwanda&target=english&text="+text)
     # print("s: "+source)
     # print(text_options.value)
     # print(text_option.value)
