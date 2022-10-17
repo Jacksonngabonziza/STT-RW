@@ -1,4 +1,3 @@
-from tkinter.ttk import Style
 import gradio as gr
 import requests
 def welcome(text):
