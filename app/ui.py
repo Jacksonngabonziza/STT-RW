@@ -9,7 +9,7 @@ def welcome(text):
     return response.text
 
 
-with gr.Blocks(server_port=5005) as demo:
+with gr.Blocks() as demo:
     css="footer {visibility: hidden}"
     gr.Markdown(
   "<h1 ><center>Digital Umuganda Machine Translation</center><style>footer {visibility: hidden} h1{margin: 1.6875rem}</style></h1>")
@@ -29,4 +29,4 @@ with gr.Blocks(server_port=5005) as demo:
     
     # print(text_options.value)
     # print(text_option)
-demo.launch()
+demo.launch(server_port=5005)
