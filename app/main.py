@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 import timeit
 import ast
 import logging
@@ -21,7 +21,7 @@ async def read_root():
 
     return ("Welcome to Digital Umuganda  machine translation  API")
         
-@app.post("/translate/", response_description="", response_model = "")
+@app.post("/translate/",response_class=HTMLResponse)
 async def result(source:str,target:str,text:str):
     logging.info("translating from "+source+"to "+target)
     logging.info("content to translate "+text)
@@ -51,7 +51,7 @@ async def result(source:str,target:str,text:str):
         else:
             logging.info("some thing went wrong find the response below")
             print(response.text)
-            return "unfortunately something went wrong"
+            return ""
     else:
         return JSONResponse(
                    status_code=status.HTTP_400_BAD_REQUEST, 
