@@ -31,6 +31,17 @@ def resampler(audio_path):
     #audio = resampler(speech_array)
     audio = resampler(speech_array).squeeze()
     torchaudio.save(audio_path,audio,16000)
+def save_audio(audio_data):
+    with tempfile.NamedTemporaryFile(mode='wb', suffix='.ogg', delete=False) as temp:
+        temp.write(audio_data)
+        temp.seek(0)
+
+        # Save the file to disk
+        with open(temp.name, 'wb') as audio_file:
+            audio_file.write(temp.read())
+
+        # Return the file name
+        return temp.name
 def resample_ffmpg(input_file_path):
     stream = ffmpeg.input(input_file_path)
     audio = stream.audio
@@ -40,13 +51,7 @@ def resample_ffmpg(input_file_path):
     #torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
         
 @app.post("/transcribe/", response_description="", response_model = "")
-with tempfile.NamedTemporaryFile(mode='wb', suffix='.ogg', delete=False) as temp:
-        temp.write(audio_data)
-        temp.seek(0)
-
-        # Save the file to disk
-        with open(temp.name, 'wb') as audio_file:
-            audio_file.write(temp.read())
+save_audio(file.file)
 
      try:
          async with aiofiles.open(file.file, 'wb') as out_file:
