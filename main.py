@@ -1,6 +1,6 @@
-from fastapi import FastAPI, UploadFile, File, status
 import aiofiles
 import nemo
+import tempfile
 import nemo.collections.asr as nemo_asr
 from fastapi.responses import JSONResponse
 import torchaudio
@@ -10,7 +10,6 @@ import ffmpeg
 import timeit
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -19,11 +18,9 @@ app.add_middleware(
     allow_origins=['*'])
 @app.get("/")
 async def read_root():
-
     return ("Welcome to kinyarwanda Speech To Text Model API")
 asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(
                 model_name="stt_rw_conformer_transducer_large")
-
 def resampler(audio_path):
     resampler = torchaudio.transforms.Resample(16000) # 
     speech_array, sampling_rate = torchaudio.load(audio_path)
@@ -31,6 +28,12 @@ def resampler(audio_path):
     #audio = resampler(speech_array)
     audio = resampler(speech_array).squeeze()
     torchaudio.save(audio_path,audio,16000)
+def resample_ffmpg(input_file_path):
+    stream = ffmpeg.input(input_file_path)
+    audio = stream.audio
+#     stream = ffmpeg.output(audio, output_file_path)
+    stream = ffmpeg.output(audio, input_file_path, **{'ar': '16000','acodec':'flac'})
+    #torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
 def save_audio(audio_data):
     with tempfile.NamedTemporaryFile(mode='wb', suffix='.ogg', delete=False) as temp:
         temp.write(audio_data)
@@ -42,18 +45,12 @@ def save_audio(audio_data):
 
         # Return the file name
         return temp.name
-def resample_ffmpg(input_file_path):
-    stream = ffmpeg.input(input_file_path)
-    audio = stream.audio
-#     stream = ffmpeg.output(audio, output_file_path)
-    stream = ffmpeg.output(audio, input_file_path, **{'ar': '16000','acodec':'flac'})
-
-    #torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
         
 @app.post("/transcribe/", response_description="", response_model = "")
-save_audio(file.file)
-
+async def result(file:UploadFile = File(...)):
+    save_audio(file.filename)
      try:
+         async with aiofiles.open(file.filename, 'wb') as out_file:
          async with aiofiles.open(file.file, 'wb') as out_file:
             content = await file.read()  # async read
             await out_file.write(content)  # async write
@@ -87,7 +84,6 @@ save_audio(file.file)
                     return {"message": transcription[0], "filename": file.filename,"TrancriptionTime":stop-start}
             else:
                 return {"message": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
-
      except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
