@@ -51,7 +51,7 @@ async def result(file:UploadFile = File(...)):
     
     save_audio(file.filename)
     try:
-         async with aiofiles.open(file.filename, 'wb') as out_file:
+         
          async with aiofiles.open(file.file, 'wb') as out_file:
             content = await file.read()  # async read
             await out_file.write(content)  # async write
@@ -85,12 +85,12 @@ async def result(file:UploadFile = File(...)):
                     return {"message": transcription[0], "filename": file.filename,"TrancriptionTime":stop-start}
             else:
                 return {"message": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
-     except Exception as e:
+    except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={'message': str(e)}
         )
-     else:
+    else:
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"result": transcription[0]}
