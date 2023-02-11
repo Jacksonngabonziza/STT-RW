@@ -48,8 +48,9 @@ def save_audio(audio_data):
         
 @app.post("/transcribe/", response_description="", response_model = "")
 async def result(file:UploadFile = File(...)):
+    
     save_audio(file.filename)
-     try:
+    try:
          async with aiofiles.open(file.filename, 'wb') as out_file:
          async with aiofiles.open(file.file, 'wb') as out_file:
             content = await file.read()  # async read
