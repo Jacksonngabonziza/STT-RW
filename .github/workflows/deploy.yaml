@@ -1,0 +1,21 @@
+name: Deploy code to server
+on:
+  push:
+    branches: ["dev"]
+
+jobs:
+  copy_to_folder:
+    name: Update and deploy
+    runs-on: api-dev
+    steps:
+      - uses: actions/checkout@v3
+      - name: building image
+        run: |-
+          if [ -z $(docker network ls --filter name=^${NETWORK_NAME}$ --format="{{ .Name }}") ] ; then 
+          docker network create ${NETWORK_NAME} ; 
+          fi
+          docker-compose build
+      - name: deploy image
+        run: |-
+          docker compose down -v --remove-orphans --rmi all || true
+          docker-compose up -d 

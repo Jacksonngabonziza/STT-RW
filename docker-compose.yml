@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  tts-kinyarwanda:
+    build: .
+    image: tts-kinyarwanda
+    container_name: tts-kinyarwanda
+    ports: 
+      - "232:80"
+    networks:
+      - infrastructure_default
+
+
+networks:
+  infrastructure_default:
+    external: true
