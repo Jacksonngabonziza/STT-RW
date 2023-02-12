@@ -1,4 +1,5 @@
-from fastapi import FastAPI, UploadFile, File, status
+from fastapi import FastAPI, UploadFile, File, status,Body
+from pydantic import BaseModel
 from fastapi.responses import StreamingResponse,JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import logging
@@ -17,13 +18,16 @@ app.add_middleware(
     allow_headers=['*'],
     allow_origins=['*'])
 
+class text(BaseModel):
+    text: str
+ 
 @app.get("/")
 async def read_root():
     return ("Welcome to kinyarwanda Text To Text Model API")
 MAX_TXT_LEN=3000
 
 @app.post("/generate_audio/", response_description="", response_model = "")
-async def generate_audio(text: str):
+async def generate_audio(text: text = Body(...)):
     if len(text) > MAX_TXT_LEN:
         text = text[:MAX_TXT_LEN]
         return JSONResponse(
