@@ -43,9 +43,9 @@ def resample_ffmpg(input_file_path):
 @app.post("/transcribe/", response_description="", response_model = "")
 async def create_file(file: bytes = File(...)):
      try:
-         with open("audio.ogg", "wb") as f:
+         with open("audio.wav", "wb") as f:
             f.write(file)
-         file_name="audio.ogg"
+         file_name="audio.wav"
        
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
         #     if file_name.endswith("mp3"):
