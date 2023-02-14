@@ -43,35 +43,30 @@ def resample_ffmpg(input_file_path):
 @app.post("/transcribe/", response_description="", response_model = "")
 async def create_file(file: bytes = File(...)):
      try:
-         async with open("audio.ogg", "wb") as f:
+         with open("audio.ogg", "wb") as f:
             f.write(file)
-            file_name="audio.ogg"
-            if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
-                #test
-    #             resampler(out_file.name)
-    #             resample_ffmpg(out_file.name)
-    #             pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
-                # converting mp3 to wav for easy resampling with pyaudio converter
-                if file_name.endswith("mp3"):
-                    sound = AudioSegment.from_mp3(out_file.name)
-                    sound.export(out_file.name, format="wav")
-                    logging.info("#############mp3 detected#################")
-                elif file_name.endswith("ogg"):
-                    sound = AudioSegment.from_ogg(out_file.name)
-                    sound.export(out_file.name, format="wav")
-                    logging.info("#############ogg detected#################")
-                pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
-                files = [out_file.name]
-                speech_array, sampling_rate = torchaudio.load(out_file.name)
-                print("updated sample rate is:",sampling_rate)
-                # print("file loaded is **************",file.file)
-                start = timeit.default_timer()
-                for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
-                    logging.info(f"Audio in {fname} was recognized as: {transcription}")
-                    stop = timeit.default_timer()
-                    logging.info(transcription[0])
-                    return {"message": transcription[0], "filename": file.filename,"TrancriptionTime":stop-start}
-            else:
+         file_name="audio.ogg"
+         if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
+            if file_name.endswith("mp3"):
+                sound = AudioSegment.from_mp3(out_file.name)
+                sound.export(out_file.name, format="wav")
+                logging.info("#############mp3 detected#################")
+            elif file_name.endswith("ogg"):
+                sound = AudioSegment.from_ogg(out_file.name)
+                sound.export(out_file.name, format="wav")
+                logging.info("#############ogg detected#################")
+            pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
+            files = [out_file.name]
+            speech_array, sampling_rate = torchaudio.load(out_file.name)
+            print("updated sample rate is:",sampling_rate)
+            # print("file loaded is **************",file.file)
+            start = timeit.default_timer()
+            for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
+                logging.info(f"Audio in {fname} was recognized as: {transcription}")
+                stop = timeit.default_timer()
+                logging.info(transcription[0])
+                return {"message": transcription[0], "filename": file.filename,"TrancriptionTime":stop-start}
+         else:
                 return JSONResponse(
                    status_code=status.HTTP_400_BAD_REQUEST, 
                    content={"message": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
