@@ -46,6 +46,7 @@ async def create_file(file: bytes = File(...)):
          with open("audio.ogg", "wb") as f:
             f.write(file)
          file_name="audio.ogg"
+         out_file.name="audio.ogg"
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
             if file_name.endswith("mp3"):
                 sound = AudioSegment.from_mp3(out_file.name)
