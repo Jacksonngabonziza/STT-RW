@@ -52,10 +52,10 @@ async def create_file(file: bytes = File(...)):
         #         sound = AudioSegment.from_mp3(file_name)
         #         sound.export(file_name, format="wav")
         #         logging.info("#############mp3 detected#################")
-        #     elif file_name.endswith("ogg"):
-        #         sound = AudioSegment.from_ogg(file_name)
-        #         sound.export(file_name, format="wav")
-        #         logging.info("#############ogg detected#################")
+            if file_name.endswith("ogg"):
+                sound = AudioSegment.from_ogg(file_name)
+                sound.export(file_name, format="wav")
+                logging.info("#############ogg detected#################")
             pac.convert_wav_to_16bit_mono(file_name,file_name)
             files = [file_name]
             # speech_array, sampling_rate = torchaudio.load(file_name)
