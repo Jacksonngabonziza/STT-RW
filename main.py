@@ -60,8 +60,8 @@ async def result(file:UploadFile = File(...)):
                     sound.export(out_file.name, format="wav")
                     logging.info("#############mp3 detected#################")
                 elif file_name.endswith("ogg"):
-                    sound = AudioSegment.from_ogg(out_file.name)
-                    sound.export(out_file.name, format="wav")
+#                     sound = AudioSegment.from_ogg(out_file.name)
+#                     sound.export(out_file.name, format="wav")
                     logging.info("#############ogg detected#################")
                 pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
                 files = [out_file.name]
