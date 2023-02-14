@@ -43,13 +43,8 @@ def resample_ffmpg(input_file_path):
 @app.post("/transcribe/", response_description="", response_model = "")
 async def create_file(file: bytes = File(...)):
      try:
-         async with aiofiles.open(file.filename, 'wb') as out_file:
-            content = await file.read()  # async read
-            await out_file.write(content)  # async write
-            logging.info(out_file.name)
-            logging.info(type(file_name))
-            with open("audio.ogg", "wb") as f:
-                f.write(file)
+         async with open("audio.ogg", "wb") as f:
+            f.write(file)
             file_name="audio.ogg"
             if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
                 #test
