@@ -49,8 +49,8 @@ async def result(file:UploadFile = File(...)):
             logging.info(out_file.name)
             file_name=out_file.name
             logging.info(type(file_name))
-         audio = AudioSegment.from_file(file.file, format=file.content_type.split('/')[-1])
-         audio.export("output.ogg", format="ogg")
+            audio = AudioSegment.from_file(file.file, format=file.content_type.split('/')[-1])
+            audio.export("output.ogg", format="ogg")
             if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
                 #test
     #             resampler(out_file.name)
