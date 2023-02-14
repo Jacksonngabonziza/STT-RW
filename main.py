@@ -66,11 +66,11 @@ async def create_file(file: bytes = File(...)):
                 logging.info(f"Audio in {fname} was recognized as: {transcription}")
                 stop = timeit.default_timer()
                 logging.info(transcription[0])
-                return {"message": transcription[0], "filename": file.filename,"TrancriptionTime":stop-start}
+                return {"message": transcription[0], "filename": file_name,"TrancriptionTime":stop-start}
          else:
                 return JSONResponse(
                    status_code=status.HTTP_400_BAD_REQUEST, 
-                   content={"message": "unsupported audio format please use .wav or mp3 file only", "filename": file.filename}
+                   content={"message": "unsupported audio format please use .wav or mp3 file only", "filename": file_name}
                 ) 
 
      except Exception as e:
