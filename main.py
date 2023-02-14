@@ -46,19 +46,19 @@ async def create_file(file: bytes = File(...)):
          with open("audio.ogg", "wb") as f:
             f.write(file)
          file_name="audio.ogg"
-         out_file.name="audio.ogg"
+       
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
             if file_name.endswith("mp3"):
-                sound = AudioSegment.from_mp3(out_file.name)
-                sound.export(out_file.name, format="wav")
+                sound = AudioSegment.from_mp3(file_name)
+                sound.export(file_name, format="wav")
                 logging.info("#############mp3 detected#################")
             elif file_name.endswith("ogg"):
-                sound = AudioSegment.from_ogg(out_file.name)
-                sound.export(out_file.name, format="wav")
+                sound = AudioSegment.from_ogg(file_name)
+                sound.export(file_name, format="wav")
                 logging.info("#############ogg detected#################")
-            pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
-            files = [out_file.name]
-            speech_array, sampling_rate = torchaudio.load(out_file.name)
+            pac.convert_wav_to_16bit_mono(file_name,file_name)
+            files = [file_name]
+            speech_array, sampling_rate = torchaudio.load(file_name)
             print("updated sample rate is:",sampling_rate)
             # print("file loaded is **************",file.file)
             start = timeit.default_timer()
