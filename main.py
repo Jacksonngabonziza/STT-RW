@@ -54,7 +54,7 @@ async def create_file(file: bytes = File(...)):
         #         logging.info("#############mp3 detected#################")
             if file_name.endswith("ogg"):
                 sound = AudioSegment.from_ogg(file_name)
-                sound.export(file_name, format="wav")
+                sound.export("audio.ogg", format="wav")
                 logging.info("#############ogg detected#################")
             pac.convert_wav_to_16bit_mono(file_name,file_name)
             files = [file_name]
