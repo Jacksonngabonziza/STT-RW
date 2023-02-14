@@ -49,6 +49,8 @@ async def result(file:UploadFile = File(...)):
             logging.info(out_file.name)
             file_name=out_file.name
             logging.info(type(file_name))
+         audio = AudioSegment.from_file(file.file, format=file.content_type.split('/')[-1])
+         audio.export("output.ogg", format="ogg")
             if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
                 #test
     #             resampler(out_file.name)
@@ -60,8 +62,8 @@ async def result(file:UploadFile = File(...)):
                     sound.export(out_file.name, format="wav")
                     logging.info("#############mp3 detected#################")
                 elif file_name.endswith("ogg"):
-#                     sound = AudioSegment.from_ogg(out_file.name)
-#                     sound.export(out_file.name, format="wav")
+                    sound = AudioSegment.from_ogg(output.ogg)
+                    sound.export(out_file.name, format="wav")
                     logging.info("#############ogg detected#################")
                 pac.convert_wav_to_16bit_mono(out_file.name,out_file.name)
                 files = [out_file.name]
