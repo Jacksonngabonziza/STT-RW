@@ -1,5 +1,4 @@
 from fastapi import FastAPI, UploadFile, File, status
-import soundfile as sf
 import aiofiles
 import wave
 import nemo
@@ -45,15 +44,9 @@ def resample_ffmpg(input_file_path):
 @app.post("/transcribe/", response_description="", response_model = "")
 async def create_file(file: bytes = File(...)):
      try:
-         with sf.SoundFile("audio.wav", "w", samplerate=16000, channels=1) as f:
-#             f.write(file)
-              sf.write('audio.wav', file, samplerate=44100, subtype='bytes565976')
+         with open("audio.wav", "wb") as f:
+            f.write(file)
          file_name="audio.wav"
-         with sf.SoundFile(file_name, 'r') as f:
-            # Print some basic information about the file
-            print(f"Channels: {f.channels}")
-            print(f"Sample rate: {f.samplerate}")
-            print(f"Duration: {len(f) / f.samplerate:.2f} seconds")
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
         #     if file_name.endswith("mp3"):
         #         sound = AudioSegment.from_mp3(file_name)
@@ -69,9 +62,9 @@ async def create_file(file: bytes = File(...)):
             print("#################### converted successfully")
             files = [file_name]
             print("#################### file loaded successfully")
-            speech_array, sampling_rate = torchaudio.load(file_name)
-            print("updated sample rate is:",sampling_rate)
-            print("file loaded is **************",file_name)
+            # speech_array, sampling_rate = torchaudio.load(file_name)
+            # print("updated sample rate is:",sampling_rate)
+            # print("file loaded is **************",file.file)
             start = timeit.default_timer()
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 logging.info(f"Audio in {fname} was recognized as: {transcription}")
