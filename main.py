@@ -46,7 +46,6 @@ async def create_file(file: bytes = File(...)):
          with open("audio.wav", "wb") as f:
             f.write(file)
          file_name="audio.wav"
-       
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
         #     if file_name.endswith("mp3"):
         #         sound = AudioSegment.from_mp3(file_name)
@@ -57,7 +56,7 @@ async def create_file(file: bytes = File(...)):
 #                 sound.export("audio.ogg", format="wav")
 #                 logging.info("#############ogg detected#################")
             print("#################### converted before")
-          pac.convert_wav_to_16bit_mono('audio.wav','audio.wav')
+            pac.convert_wav_to_16bit_mono('audio.wav','audio.wav')
             print("#################### converted successfully")
             files = [file_name]
             print("#################### file loaded successfully")
