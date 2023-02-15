@@ -65,8 +65,8 @@ async def create_file(file: bytes = File(...)):
             print("#################### converted successfully")
             files = [file_name]
             print("#################### file loaded successfully")
-            # speech_array, sampling_rate = torchaudio.load(file_name)
-            # print("updated sample rate is:",sampling_rate)
+            speech_array, sampling_rate = torchaudio.load(file_name)
+            print("updated sample rate is:",sampling_rate)
             # print("file loaded is **************",file.file)
             start = timeit.default_timer()
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
