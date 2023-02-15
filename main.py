@@ -32,23 +32,20 @@ def resampler(audio_path):
     print("current sample rate is:",sampling_rate)
     #audio = resampler(speech_array)
     audio = resampler(speech_array).squeeze()
-    torchaudio.save(audio_path,audio,48000)
+    torchaudio.save(audio_path,audio,16000)
 def resample_ffmpg(input_file_path):
     stream = ffmpeg.input(input_file_path)
     audio = stream.audio
 #     stream = ffmpeg.output(audio, output_file_path)
-    stream = ffmpeg.output(audio, input_file_path, **{'ar': '48000','acodec':'flac'})
+    stream = ffmpeg.output(audio, input_file_path, **{'ar': '16000','acodec':'flac'})
 
     #torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
         
 @app.post("/transcribe/", response_description="", response_model = "")
 async def create_file(file: bytes = File(...)):
      try:
-         with wave.open("audio.wav", "wb") as wav_file:
-            wav_file.setnchannels(1)
-            wav_file.setsampwidth(2)
-            wav_file.setframerate(16000)
-            wav_file.writeframes(file)
+         with open("audio.wav", "wb") as f:
+            f.write(file)
          file_name="audio.wav"
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
         #     if file_name.endswith("mp3"):
@@ -65,9 +62,9 @@ async def create_file(file: bytes = File(...)):
             print("#################### converted successfully")
             files = [file_name]
             print("#################### file loaded successfully")
-            speech_array, sampling_rate = torchaudio.load(file_name)
+            # speech_array, sampling_rate = torchaudio.load(file_name)
             print("updated sample rate is:",sampling_rate)
-            # print("file loaded is **************",file.file)
+            print("file loaded is **************",file.file)
             start = timeit.default_timer()
             for fname, transcription in zip(files, asr_model.transcribe(paths2audio_files=files)):
                 logging.info(f"Audio in {fname} was recognized as: {transcription}")
