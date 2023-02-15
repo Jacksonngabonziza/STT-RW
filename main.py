@@ -45,9 +45,9 @@ def resample_ffmpg(input_file_path):
 @app.post("/transcribe/", response_description="", response_model = "")
 async def create_file(file: bytes = File(...)):
      try:
-#          with sf.SoundFile("audio.wav", "w", samplerate=16000, channels=1) as f:
+         with sf.SoundFile("audio.wav", "w", samplerate=16000, channels=1) as f:
 #             f.write(file)
-         sf.write('audio.wav', file, samplerate=44100, subtype='bytes565976')
+              sf.write('audio.wav', file, samplerate=44100, subtype='bytes565976')
          file_name="audio.wav"
          with sf.SoundFile(file_name, 'r') as f:
             # Print some basic information about the file
