@@ -32,12 +32,12 @@ def resampler(audio_path):
     print("current sample rate is:",sampling_rate)
     #audio = resampler(speech_array)
     audio = resampler(speech_array).squeeze()
-    torchaudio.save(audio_path,audio,16000)
+    torchaudio.save(audio_path,audio,48000)
 def resample_ffmpg(input_file_path):
     stream = ffmpeg.input(input_file_path)
     audio = stream.audio
 #     stream = ffmpeg.output(audio, output_file_path)
-    stream = ffmpeg.output(audio, input_file_path, **{'ar': '16000','acodec':'flac'})
+    stream = ffmpeg.output(audio, input_file_path, **{'ar': '48000','acodec':'flac'})
 
     #torchaudio.save("out.wav",audio,16000) # 16000 ni sampling rate
         
