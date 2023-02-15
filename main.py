@@ -46,7 +46,7 @@ async def create_file(file: bytes = File(...)):
      try:
          with open("audio.wav", "wb") as f:
             f.write(file)
-         file_name="audio.wav"
+         
          with wave.open("audio.wav", "rb") as audio_file:
             audio_data = audio_file.readframes(audio_file.getnframes())
          with wave.open("new_audio.wav", "wb") as output_file:
@@ -54,7 +54,7 @@ async def create_file(file: bytes = File(...)):
             output_file.setsampwidth(audio_file.getsampwidth())
             output_file.setframerate(16000)
             output_file.writeframes(audio_data)
-        
+         file_name="new_audio.wav"
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
         #     if file_name.endswith("mp3"):
         #         sound = AudioSegment.from_mp3(file_name)
