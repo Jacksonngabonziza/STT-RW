@@ -47,6 +47,11 @@ async def create_file(file: bytes = File(...)):
          with open("audio.wav", "wb") as f:
             f.write(file)
          file_name="audio.wav"
+         with wave.open('audio.wav', 'rb') as audio_file:
+            
+            # Get the number of channels in the audio file
+           num_channels = audio_file.getnchannels()
+           print(f"Number of channels: {num_channels}")
          if file_name.endswith("mp3") or file_name.endswith("wav") or file_name.endswith("ogg"):
         #     if file_name.endswith("mp3"):
         #         sound = AudioSegment.from_mp3(file_name)
